@@ -3,6 +3,8 @@ import pandas as pd
 from scipy.stats import fisher_exact
 from scipy.stats.contingency import odds_ratio
 from src.statistical_tests.wallace_coefficient import CT
+from firthmodels import FirthLogisticregression
+
 from typing import Optional
 
 def AssociationTest(arr1, phenotype, outfile: Optional[str] = None):
@@ -32,10 +34,7 @@ def AssociationTest(arr1, phenotype, outfile: Optional[str] = None):
         for y in phenotype:
             tmp_phenotype = np.where(phenotype == y, phenotype, 'other_phenotype')
 
-
-        ct = pd.crosstab(tmp_arr, tmp_phenotype)
-        res= fisher_exact(ct)
-        OR = odds_ratio(ct)
+        model = FirthLogisticRegression().fit(X, y)
 
         if outfile is not None:
             with open(outfile, 'w') as f:

@@ -6,6 +6,7 @@ TO-DO
 [X] Add shannon index of diversity
 [X] Write test for shannon index of diversity
 [] Debug why shannon index is giving innapropriate values
+[] Add Firth regression to subtype association test
 [] Add rand index
 [] Add adjusted rand index
 [] Add mirkin metric
