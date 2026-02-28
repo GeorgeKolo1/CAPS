@@ -3,7 +3,9 @@ Repo for software to compare subtyping methods - in production
 
 TO-DO
 [] Add test for subtype association function
-[] Add shannon index of diversity
+[X] Add shannon index of diversity
+[X] Write test for shannon index of diversity
+[] Debug why shannon index is giving innapropriate values
 [] Add rand index
 [] Add adjusted rand index
 [] Add mirkin metric
