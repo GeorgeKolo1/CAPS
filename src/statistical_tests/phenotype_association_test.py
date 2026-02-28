@@ -3,8 +3,9 @@ import pandas as pd
 from scipy.stats import fisher_exact
 from scipy.stats.contingency import odds_ratio
 from src.statistical_tests.wallace_coefficient import CT
+from typing import Optional
 
-def AssociationTest(arr1, phenotype, outfile: str):
+def AssociationTest(arr1, phenotype, outfile: Optional[str] = None):
     '''
     Function to test for subtype (within a subtype method) associations with a phenotype
     
@@ -19,27 +20,29 @@ def AssociationTest(arr1, phenotype, outfile: str):
     Returns:
         
     '''
-    if arr1.isinstance(np.array) == False:
+    if isinstance(arr1, np.ndarray) == False:
         arr1 = arr1.to_numpy()
 
-    if phenotype.isinstance(np.array) == False:
+    if isinstance(phenotype, np.ndarray) == False:
         phenotype = phenotype.to_numpy()
 
     for i in arr1:
-        tmp_arr = np.where(arr1 != i, arr1, i, 'other')
+        tmp_arr = np.where(arr1 == i, arr1, 'other')
 
         for y in phenotype:
-            tmp_phenotype = np.where(phenotype != y, y, 'other_phenotype')
+            tmp_phenotype = np.where(phenotype == y, phenotype, 'other_phenotype')
 
 
-        ct = CT(tmp_arr, tmp_phenotype)
+        ct = pd.crosstab(tmp_arr, tmp_phenotype)
         res= fisher_exact(ct)
         OR = odds_ratio(ct)
 
-        return ct, res.statistic, res.pvalue, OR, OR.confidence_interval
+        if outfile is not None:
+            with open(outfile, 'w') as f:
+                f.write(f'subtype {i}, phenotype {y}')
+                f.write(f'statistic {res.statistic}, pvalue {res.pvalue}, odds ratio {OR}, oddsratio 95% CI {OR.confidence_interval}')
 
-'''
-        with open(outfile) as f:
-            f.write(f'subtype {i}, phenotype {y}')
-            f.write(f'statistic {res.statistic}, pvalue {res.pvalue}, odds ratio {OR}, oddsratio 95% CI {OR.confidence_interval}')
-            '''
+        return res.statistic, res.pvalue, OR, OR.confidence_interval
+
+
+        
