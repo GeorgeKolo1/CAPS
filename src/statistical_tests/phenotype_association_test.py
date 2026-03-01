@@ -3,9 +3,11 @@ import pandas as pd
 from scipy.stats import fisher_exact
 from scipy.stats.contingency import odds_ratio
 from src.statistical_tests.wallace_coefficient import CT
-from firthmodels import FirthLogisticregression
-
+from firthmodels import FirthLogisticRegression
+from firthmodels import detect_separation
 from typing import Optional
+import os
+
 
 def AssociationTest(arr1, phenotype, outfile: Optional[str] = None):
     '''
@@ -21,6 +23,9 @@ def AssociationTest(arr1, phenotype, outfile: Optional[str] = None):
 
     Returns:
         
+    Raises:
+
+        
     '''
     if isinstance(arr1, np.ndarray) == False:
         arr1 = arr1.to_numpy()
@@ -28,20 +33,57 @@ def AssociationTest(arr1, phenotype, outfile: Optional[str] = None):
     if isinstance(phenotype, np.ndarray) == False:
         phenotype = phenotype.to_numpy()
 
+
     for i in arr1:
-        tmp_arr = np.where(arr1 == i, arr1, 'other')
+        tmp_arr = np.where(arr1 == i, 1, 0)
+        tmp_arr = tmp_arr.reshape(-1, 1)
 
         for y in phenotype:
-            tmp_phenotype = np.where(phenotype == y, phenotype, 'other_phenotype')
+            tmp_phenotype = np.where(phenotype == y, 1, 0)
+            tmp_phenotype = tmp_phenotype.reshape(-1, 1)
 
-        model = FirthLogisticRegression().fit(X, y)
+        seperation = detect_separation(tmp_arr, tmp_phenotype)
 
-        if outfile is not None:
-            with open(outfile, 'w') as f:
-                f.write(f'subtype {i}, phenotype {y}')
-                f.write(f'statistic {res.statistic}, pvalue {res.pvalue}, odds ratio {OR}, oddsratio 95% CI {OR.confidence_interval}')
+        if seperation == True:
+            print('Sepeartion Detected! Will use Firth Penalized Logistic Regression to compute effect size (odds ratio)')
+            model = FirthLogisticRegression().fit(tmp_arr, tmp_phenotype)
+            CI_low, CI_high = model.conf_int()
 
-        return res.statistic, res.pvalue, OR, OR.confidence_interval
+            if outfile is None:
+                print("OUTFILE IS NONE! Will save to working directory...")
+                tmp_result_dict = {"subtype": i, "coefficient" : model.coef_[0], "odds_ratio" : np.exp(model.coef_[0]), "pvalues" : model.pvalues_[0], "CI_low" : np.exp(CI_low), "CI_high" : np.exp(CI_high)}
+                results_df = pd.DataFrame(data=tmp_result_dict)
+                results_df.to_csv(outfile + f'_{y}_FirthLR.csv')
+
+            else:
+                tmp_result_dict = {"subtype": i, "coefficient" : model.coef_[0], "odds_ratio" : np.exp(model.coef_[0]), "pvalues" : model.pvalues_[0], "CI_low" : np.exp(CI_low), "CI_high" : np.exp(CI_high)}
+                results_df = pd.DataFrame(data=tmp_result_dict)
+                results_df.to_csv(outfile + f'_{y}_FirthLR.csv')
+                
+
+        else:
+            ct = pd.crosstab(tmp_arr, tmp_phenotype)
+
+            res_or = odds_ratio(ct)
+            res = fisher_exact(ct)
+            OR = res_or.statistic
+            CI = res_or.confidence_interval()
+
+            if outfile is None:
+                print("OUTFILE IS NONE! Will save to working directory...")
+                tmp_result_dict = {'subtype': i, "statistic" : res.statistic, 'pvalue' : res.pvalue, 'odds_ratio' : OR, "CI_low": CI.low, 'CI_high': CI.high}
+                results_df = pd.DataFrame(data=tmp_result_dict)
+                outfile = os.getcwd()
+                results_df.to_csv(outfile + f'_{y}_OR.csv')
+
+            else:
+                tmp_result_dict = {'subtype': i, "statistic" : res.statistic, 'pvalue' : res.pvalue, 'odds_ratio' : OR, "CI_low": CI.low, 'CI_high': CI.high}
+                results_df = pd.DataFrame(data=tmp_result_dict)
+                outfile = os.getcwd()
+                results_df.to_csv(outfile + f'_{y}_OR.csv')
+        
+    
+    
 
 
         

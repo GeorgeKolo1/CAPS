@@ -21,10 +21,9 @@ def test_association_test(tmp_path):
     assert  len(arr1) == len(phenotype)
 
     outfile = os.path.join(tmp_path, 'test_output.txt')
-    statistic, pvalue, OR, CI = AssociationTest(arr1, phenotype, outfile)
+
+    AssociationTest(arr1, phenotype, outfile)
 
     assert os.path.exists(outfile)
-    assert statistic != 0
-    assert pvalue != 0
 
     
