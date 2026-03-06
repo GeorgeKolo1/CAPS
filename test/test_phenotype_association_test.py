@@ -20,10 +20,13 @@ def test_association_test(tmp_path):
     phenotype = np.random.choice(['A', 'B', 'C', 'D', 'E'], size=len(arr1))
     assert  len(arr1) == len(phenotype)
 
-    outfile = os.path.join(tmp_path, 'test_output.txt')
+    outfile = os.path.join(tmp_path, 'test_output')
 
-    AssociationTest(arr1, phenotype, outfile)
+    df = AssociationTest(arr1, phenotype, outfile)
+
 
     assert os.path.exists(outfile)
+    assert (df['odds_ratio'] <= df['CI_low']).all()
+    assert (df['odds_ratio'] >= df ['CI_high']).all()
 
     

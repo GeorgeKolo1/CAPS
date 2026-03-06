@@ -2,9 +2,7 @@
 Repo for software to compare subtyping methods - in production
 
 TO-DO
-[X] Add Firth regression to subtype association test
-[X] Add test for subtype association function
-[] Debug subtype association function (add seperate workflow for Firth regression and OR, with if statement based on function parameter)
+[X] Debug subtype association function (add seperate workflow for Firth regression and OR, with if statement based on function parameter)
 [] Create slightly better subtype association function test (including for if you run Firth and OR, if Firth has perfect seperation etc....)
 [] Debug why shannon index is giving innapropriate values
 [] Add rand index

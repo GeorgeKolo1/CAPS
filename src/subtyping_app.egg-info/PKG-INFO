@@ -5,18 +5,33 @@ Summary: Subtyping software application
 Author-email: You <you@example.com>
 Requires-Python: >=3.8
 Description-Content-Type: text/markdown
+License-File: LICENSE
 Requires-Dist: numpy
 Requires-Dist: pandas
 Requires-Dist: scipy
 Requires-Dist: matplotlib
 Requires-Dist: seaborn
 Requires-Dist: pytest
+Requires-Dist: firthmodels
+Dynamic: license-file
 
-# Subtyping_app
-Repo for prototype of subtyping app
+# Subtyping software
+Repo for software to compare subtyping methods - in production
 
 TO-DO
-[X] Create adjusted wallace coefficient script
-[] Create tests for discrimination index, wallace coefficient and adjusted wallace coefficient scripts
+[X] Debug subtype association function (add seperate workflow for Firth regression and OR, with if statement based on function parameter)
+[] Create slightly better subtype association function test (including for if you run Firth and OR, if Firth has perfect seperation etc....)
+[] Debug why shannon index is giving innapropriate values
+[] Add rand index
+[] Add adjusted rand index
+[] Add mirkin metric
+[] Add jaccard index
+[] Add Fowlkes and Mallows index
+[] Add mutual information
+[] Add normalized mutual information
+[] Add variation of information
+[] Add normalised variation of information
 [] Create visualisation
-[] Create function to compare associations of subtypes with a phenotype
+[] Create proper input file checks
+[] Add proper error handling 
+[] Make proper docstrings for all functions and tests
