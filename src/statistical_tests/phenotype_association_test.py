@@ -43,10 +43,10 @@ def AssociationTest(arr1: pd.Series | np.ndarray, phenotype: pd.Series | np.ndar
 
             seperation = detect_separation(tmp_arr.reshape(-1, 1), tmp_phenotype.reshape(-1, 1))
 
-            if seperation:
+            if seperation.separation == True:
                 print('SEPERATION DETECTED!! Will use Firth logistic regression to compute odds ratios')
                 model = FirthLogisticRegression().fit(tmp_arr.reshape(-1, 1), tmp_phenotype.reshape(-1, 1))
-                CI_low, CI_high = model.conf_int()
+                CI = model.conf_int()
                 results.append({
                     "subtype": i,
                     "phenotype": y,
@@ -54,8 +54,8 @@ def AssociationTest(arr1: pd.Series | np.ndarray, phenotype: pd.Series | np.ndar
                     "coefficient": model.coef_[0],
                     "odds_ratio": np.exp(model.coef_[0]),
                     "pvalue": model.pvalues_[0],
-                    "CI_low": np.exp(CI_low),
-                    "CI_high": np.exp(CI_high)
+                    "CI_low": np.exp(CI[1][0]),
+                    "CI_high": np.exp(CI[1][1])
                 })
 
             else:
