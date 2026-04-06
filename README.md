@@ -1,6 +1,6 @@
 # CAPS
 
-[![CI](https://github.com/GeorgeKolo1/CAPS/workflows/CI/badge.svg)](https://github.com/GeorgeKolo1/CAPS/actions)
+[![CI](https://github.com/GeorgeKolo1/CAPS/actions/workflows/ci/badge.svg)](https://github.com/GeorgeKolo1/CAPS/actions)
 
 ## Subtyping software
 Repo for software to compare subtyping methods - in production
