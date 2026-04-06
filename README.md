@@ -2,7 +2,8 @@
 Repo for software to compare subtyping methods - in production
 
 TO-DO
-[] Create slightly better subtype association function test (including for if you run Firth and OR, if Firth has perfect seperation etc....)
+[] Create main script file allowing the running of the CLI 
+Create slightly better subtype association function test (including for if you run Firth and OR, if Firth has perfect seperation etc....)
 [] Debug why shannon index is giving innapropriate values
 [] Add rand index
 [] Add adjusted rand index

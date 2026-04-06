@@ -16,10 +16,16 @@ dependencies = [
 "seaborn", 
 "pytest", 
 "firthmodels"]
-authors = [{name = "You", email = "you@example.com"}]
+authors = [{name = "George M. Kolodziejczyk", email = "georgemkhd@gmail.com, gk00709@surrey.ac.uk"}]
+
+[project.optional-dependencies]
+dev = ["pytest", "flake8"]
 
 [tool.setuptools.package-dir]
 "" = "src"
 
 [tool.setuptools.packages.find]
 where = ["src"]
+
+[project.scripts]
+caps = "src:statistical_tests.caps:main"
