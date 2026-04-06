@@ -16,7 +16,7 @@ dependencies = [
 "seaborn", 
 "pytest", 
 "firthmodels"]
-authors = [{name = "George M. Kolodziejczyk", email = "georgemkhd@gmail.com, gk00709@surrey.ac.uk"}]
+authors = [{name = "George M. Kolodziejczyk", email = "georgemkhd@gmail.com"}]
 
 [project.optional-dependencies]
 dev = ["pytest", "flake8"]
