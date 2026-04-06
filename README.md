@@ -1,4 +1,7 @@
-# Subtyping software
+# CAPS
+![CI](https://github.com/GeorgeKolo1/CAPS/workflows/CI/badge.svg)
+
+## Subtyping software
 Repo for software to compare subtyping methods - in production
 
 TO-DO
