@@ -1,7 +1,7 @@
 import numpy as np
 import pandas as pd
 import os
-from src.statistical_tests.phenotype_association_test import AssociationTest
+from src.statistical_tests.phenotype_association import AssociationTest
 
 def test_association_test(tmp_path):
     '''
