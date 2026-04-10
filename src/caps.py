@@ -38,9 +38,11 @@ def main():
 
 
     results = pd.DataFrame({
-        'Discrimination Index': [DI],
-        '95% CI Lower': [DI_low],
-        '95% CI Upper': [DI_high]
+        'DI': [DI],
+        'CI_low': [DI_low],
+        'CI_high': [DI_high],
+        'AWC_AvsB' : [AW_ab],
+        'AWC_BvsA' : [AW_ba]
     })
 
     if args.output.endswith('.tsv'):

@@ -28,4 +28,4 @@ dev = ["pytest", "flake8"]
 where = ["src"]
 
 [project.scripts]
-caps = "statistical_tests.caps:main"
+caps = "caps:main"
