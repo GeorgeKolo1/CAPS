@@ -36,9 +36,5 @@ def OutputProcessor(results_df, outfile):
     outfile (str): A string that contains the directory and filename (prefix) in which to save the results; 
     Defaults to current working directory when not specified or left as None (default)'''
 
-    if outfile.endswith('.tsv'):
-        results_df.to_csv(outfile, sep='\t', index=False)
-    elif outfile.output.endswith('.csv'):
-        results_df.to_csv(outfile, index=False)
-    else:
-        results_df.to_csv(outfile + "results.csv", index=False)
+   
+    results_df.to_csv(outfile + "results.csv", index=False)
