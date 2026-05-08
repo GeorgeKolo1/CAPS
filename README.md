@@ -41,4 +41,4 @@ The phenotype file should be in comma seperated (.csv) or tab-seperated (.tab) f
 
 ### Output
 
-The output file is generated in the user-specified directory. If the user provides a filename in the output for example ´´´-o path/to/your_files/results.tsv (or .csv)´´´ then the file will be named after the user defined output. If the user specifies only a directory, for example ´´´-o path/to/your_files/´´´ then the results file will be saved as results.csv in the user-specified directory.
+The output file is generated in the user-specified directory. If the user provides a filename in the output for example ```-o path/to/your_files/results.tsv (or .csv)``` then the file will be named after the user defined output. If the user specifies only a directory, for example ```-o path/to/your_files/``` then the results file will be saved as results.csv in the user-specified directory.
