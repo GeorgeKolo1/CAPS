@@ -99,7 +99,9 @@ At least two output files are generated:
 | `CI_high` | Upper bound of the 95% CI for the odds ratio |
 
 ## References
-
+- Carriço, J. A., C. Silva-Costa, J. Melo-Cristino, F. R. Pinto, H. de Lencastre, J. S. Almeida, and M. Ramirez. 2006. Illustration of a Common Framework for Relating Multiple Typing Methods by Application to Macrolide-Resistant Streptococcus pyogenes. J. Clin. Microbiol. 44(7):2524-32. (link)
+- Grundmann, H., Hori, S. & Tanner, G. (2001). Determining confidence intervals when measuring genetic diversity. *Journal of Clinical Microbiology*, 39(11), 4190–4192.
 - Hunter, P.R. & Gaston, M.A. (1988). Numerical index of the discriminatory ability of typing systems. *Journal of Clinical Microbiology*, 26(11), 2465–2466.
 - Severiano, A., et al. (2011). Adjusted Wallace coefficient as a measure of congruence between typing methods. *Journal of Clinical Microbiology*, 49(11), 3997–4000.
-- Grundmann, H., Hori, S. & Tanner, G. (2001). Determining confidence intervals when measuring genetic diversity. *Journal of Clinical Microbiology*, 39(11), 4190–4192.
+
+

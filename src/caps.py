@@ -1,8 +1,7 @@
 import argparse
-from src import input_output_processor as iop
-from src import statistical_tests as di
-from src import adjusted_wallace as aw
-from src import phenotype_association as pa
+import input_output_processor as iop
+import statistical_tests as st
+import phenotype_association as pa
 import pandas as pd
 
 
@@ -27,16 +26,16 @@ def main():
 
     df, phenotype = iop.DataProcessor(args.input, args.phenotype)
 
-    DI, DI_low, DI_high = di.DiscriminationIndex(df)
+    DI, DI_low, DI_high = st.DiscriminationIndex(df)
 
     if args.comparator is not None:
         if args.comparator not in df.columns:
             raise ValueError(f"Comparator column '{args.comparator}' not found in input file")
         comparator_col = df[args.comparator]
 
-        AW_ab, AW_ba = aw.AdjustedWallace(df.iloc[:, 0], comparator_col)
+        AW_ab, AW_ba = st.AdjustedWallace(df.iloc[:, 0], comparator_col)
     else:
-        AW_ab, AW_ba = aw.AdjustedWallace(df.iloc[: 0], df.iloc[:, 1])
+        AW_ab, AW_ba = st.AdjustedWallace(df.iloc[:, 0], df.iloc[:, 1])
 
 
     for i in df.columns:

@@ -1,6 +1,6 @@
-from src.statistical_tests import DiscriminationIndex
-from src.statistical_tests import AdjustedWallace
-from src.statistical_tests import Wallace
+from statistical_tests import DiscriminationIndex
+from statistical_tests import AdjustedWallace
+from statistical_tests import Wallace
 
 def test_discrimination_index_95_ci(test_data):
     D, CI_low, CI_high = DiscriminationIndex(test_data['T type'])

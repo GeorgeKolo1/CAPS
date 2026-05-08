@@ -1,6 +1,6 @@
 import numpy as np
 import pandas as pd
-from src.input_output_processor import InputProcessor as ip
+from input_output_processor import InputProcessor as ip
 
 def test_input_processor():
     '''
