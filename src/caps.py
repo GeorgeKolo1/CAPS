@@ -1,6 +1,8 @@
 import argparse
+from src import input_output_processor as iop
 from src import statistical_tests as di
 from src import adjusted_wallace as aw
+from src import phenotype_association as pa 
 import pandas as pd
 
 
@@ -11,20 +13,19 @@ def get_args():
     parser = argparse.ArgumentParser(description='CAPS is a subtyping comparison command-line tool')
 
     subtype = parser.add_argument_group('Subtyping method comparison')
-    subtype.add_argument('--input', '-i', type=str, required=True, help='Path to the input file (CSV or TSV) containing subtyping data')
+    subtype.add_argument('--input', '-i', type=str, required=True, help='Path to the input file (CSV or TSV) containing subtyping data and phenotype data for association analysis')
     subtype.add_argument('--output', '-o', type=str, required=True, help='Path to the output file where results will be saved')
     subtype.add_argument('--comparator', '-c', default=None, help='name of column (subtyping method) to use as comparator. ONLY NEEDED IF NUMBER OF SUBTYPING METHODS > 2' )
 
     phenotype = parser.add_argument_group('Phenotype association analysis')
-    phenotype.add_argument('--phenotype', '-p', type=str, help='Path to the file (CSV or TSV) containing phenotype data for association analysis')
-    phenotype.add_argument_group.add_argument('--subtypes', '-s', help='path to file (CSV or TSV) containing subtypes to perform phenotype association analysis for, can be a single column (one subtyping method) or multiple columns (multiple subtyping methods)')
+    phenotype.add_argument('--phenotype', '-p', type=str, help='name of the column containing the phenotype data to be used for association analysis')
 
     return parser.parse_args()
 
 def main():
     args = get_args()
 
-    df = pd.read_csv(args.input, sep='\t' if args.input.endswith('.tsv') else ',')
+    df, phenotype = iop.DataProcessor(args.input, args.phenotype)
 
     DI, DI_low, DI_high = di.DiscriminationIndex(df)
 
@@ -38,6 +39,12 @@ def main():
         AW_ab, AW_ba = aw.AdjustedWallace(df.iloc[: 0], df.iloc[:, 1])
 
 
+    for i in df.columns:
+        print(f"Testing for associations between {i} and {args.phenotype}")
+        assoc_df = pa.AssociationTest(df[i], phenotype, args.output + f"_{i}_association_results.csv")
+        iop.OutputProcessor(df, args.output + f"_{i}_association_results.csv")
+
+
     results = pd.DataFrame({
         'DI': [DI],
         'CI_low': [DI_low],
@@ -46,10 +53,7 @@ def main():
         'AWC_BvsA' : [AW_ba]
     })
 
-    if args.output.endswith('.tsv'):
-        results.to_csv(args.output, sep='\t', index=False)
-    else:
-        results.to_csv(args.output, index=False)
+    iop.OutputProcessor(results, args.output)
 
 if __name__ == "__main__":
     main()

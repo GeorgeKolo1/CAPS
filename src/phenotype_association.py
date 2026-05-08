@@ -9,7 +9,7 @@ from typing import Optional
 import os
 
 
-def AssociationTest(arr1: pd.Series | np.ndarray, phenotype: pd.Series | np.ndarray, outfile: Optional[str] = None):
+def AssociationTest(arr1: pd.Series | np.ndarray, phenotype: pd.Series | np.ndarray) -> pd.DataFrame:
     '''
     Function to test for subtype (within a subtype method) associations with a phenotype
 
@@ -76,9 +76,5 @@ def AssociationTest(arr1: pd.Series | np.ndarray, phenotype: pd.Series | np.ndar
                 })
 
     results_df = pd.DataFrame(results)
-
-    if outfile is None:
-        outfile = os.path.join(os.getcwd(), 'association_results.csv')
-    results_df.to_csv(outfile, index=False)
 
     return results_df
