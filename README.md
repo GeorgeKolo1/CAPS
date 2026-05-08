@@ -20,7 +20,7 @@ We acknowledge comparingpartitions.com as a predeccesor which is a platform that
 ## Instructions
 
 ### Input requirements
-#### Input
+#### Input file
 
 ´´´-i or --i´´´
 
@@ -31,14 +31,18 @@ There is no limit on the number of subtypes (columns) you can include.
 
 ```-e or --e```
 
-The comparator column should be the name of one of the subtyping columns within the input file. The comparator column is used to compare all subtyping methods to a single subtyping method in the adjusted wallace coefficient test. 
+The comparator column should be the name of one of the subtyping columns within the input file. The comparator column is used to compare all subtyping methods to a single subtyping method in the adjusted wallace coefficient test. If only two subtyping methods are being compared, you can ignore this command.
 
-#### Phenotype
+#### Phenotype column
 
 ```-p or --p```
 
-The phenotype file should be in comma seperated (.csv) or tab-seperated (.tab) format and include phenotypes 
+The phenotype column should be specified and be contained within the ```-i or --i``` input file
 
-### Output
+### Output files
 
 The output file is generated in the user-specified directory. If the user provides a filename in the output for example ```-o path/to/your_files/results.tsv (or .csv)``` then the file will be named after the user defined output. If the user specifies only a directory, for example ```-o path/to/your_files/``` then the results file will be saved as results.csv in the user-specified directory.
+
+At least two output files will be generated: 
+1. An output file containing the results of the discrimination index and adjusted Wallace coefficient tests called ```DI_AWC_results.csv```
+2. An output file containing the subtype-phenotype association test results called ```{YOUR_SUBTYPING_METHOD}_association_results.csv```
