@@ -1,30 +1,30 @@
 import numpy as np
-import pandas as pd
+import pytest
 import os
-from src.phenotype_association import AssociationTest
+from src.phenotype_association import AssociationTest, SeperationInvestigator
+
+@pytest.fixture
+def perfect_separation():
+    subtypes = np.array(['A', 'B', 'A', 'B', 'A', 'B'])
+    phenotype = np.array([1, 2, 1, 2, 1, 2])
+    return subtypes, phenotype
+
+@pytest.fixture
+def no_separation():
+    rng = np.random.default_rng(42)
+    subtypes = rng.choice(['A', 'B', 'C'], size=100)
+    phenotype = rng.choice(['X', 'Y'], size=100)
+    return subtypes, phenotype
+
 
 def test_association_test(tmp_path):
-    '''
+ 
     
-    
-    
-    
-    
-    
-    '''
-    #Set up test data
-    data = pd.read_csv('test/test_data_folder/test_data.csv')
-    data = data.to_numpy()
-    arr1 = data[:, 1]
 
-    #arr2 to test perfect seperation causes Firth LR to be used
-    arr2 = np.array(['A', 'B', 'A', 'B', 'A', 'B']) 
-    np.random.seed(42)
-    phenotype = np.random.choice(['A', 'B', 'C', 'D', 'E'], size=len(arr1))
-
-    #Phenotype for perfect association testing
-    phenotype_sep = np.array([1, 2, 1, 2, 1, 2])
-    assert  len(arr1) == len(phenotype)
+def test_separation_investigator_detects_perfect_separation(perfect_separation):
+    arr, phenotype = perfect_separation
+    assert SeperationInvestigator(arr, phenotype) is True
+# ...etc
 
     outfile = os.path.join(tmp_path, 'test_output')
 
