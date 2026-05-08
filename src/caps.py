@@ -1,5 +1,6 @@
 import argparse
-from src.statistical_tests import discrimination_index as di, adjusted_wallace as aw
+from src import statistical_tests as di
+from src import adjusted_wallace as aw
 import pandas as pd
 
 

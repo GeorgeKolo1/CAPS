@@ -1,4 +1,4 @@
-from src.statistical_tests.discrimination_index import DiscriminationIndex
+from src.statistical_tests import DiscriminationIndex
 import pandas as pd
 
 def test_DiscriminationIndex():

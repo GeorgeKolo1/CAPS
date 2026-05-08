@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd
 from scipy.stats import fisher_exact
 from scipy.stats.contingency import odds_ratio
-from src.statistical_tests.wallace_coefficient import CT
+from src.statistical_tests import CT
 from firthmodels import FirthLogisticRegression
 from firthmodels import detect_separation
 from typing import Optional

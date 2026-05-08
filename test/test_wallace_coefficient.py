@@ -1,6 +1,6 @@
 import pandas as pd
 import numpy as np
-from src.statistical_tests import wallace_coefficient as wc
+from src import wallace_coefficient as wc
 
 def test_wallace():
     """Function to test the wallace coefficient function

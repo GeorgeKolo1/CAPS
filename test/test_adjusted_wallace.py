@@ -1,6 +1,6 @@
 import numpy as np
 import pandas as pd
-from src.statistical_tests.adjusted_wallace import AdjustedWallace
+from src.statistical_tests import AdjustedWallace
 
 def test_adjusted_wallace():
     '''Function that tests the adjusted wallace function
