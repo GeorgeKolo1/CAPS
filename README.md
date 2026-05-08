@@ -13,6 +13,10 @@ CAPS also provides statistical testing to compare subtyping methods, including t
 
 We acknowledge comparingpartitions.com as a predeccesor which is a platform that enables extensive comparison of subtyping methods using statistical tests (including the discrimination index and adjusted wallace coefficient)
 
+##  Installation
+
+
+
 ## Quickstart
 
 ```caps -i path/to/your/subtyping_data -o path/to/output_directory -c comparator_column -p phenotype```
