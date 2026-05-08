@@ -4,49 +4,102 @@
 
 ## Overview
 
-CAPS is a command-line tool that enables subtype-phenotype association testing. CAPS calculates uses one vs rest comparisons against subtypes and phenotypes to quantify the strength of association between subtypes and a given phenotype. CAPS does this in two primary ways:
+CAPS is a command-line tool that enables subtype-phenotype association testing. CAPS uses one-vs-rest comparisons across subtypes and phenotypes to quantify the strength of association between subtypes and a given phenotype. CAPS does this in two primary ways:
 
-1. Using an odds ratio that is calculated from a 2x2 contingency table
-2.  If data is perfectly seperated, Firth logistic regression is used to avoid infinite estimates
+1. Using an odds ratio calculated from a 2x2 contingency table (Fisher's exact test)
+2. If data is perfectly separated, Firth logistic regression is used to avoid infinite estimates
 
 CAPS also provides statistical testing to compare subtyping methods, including the discrimination index (Hunter & Gaston, 1988) and the adjusted Wallace coefficient (Severiano et al., 2011).
 
-We acknowledge comparingpartitions.com as a predeccesor which is a platform that enables extensive comparison of subtyping methods using statistical tests (including the discrimination index and adjusted wallace coefficient)
+We acknowledge comparingpartitions.com as a predecessor, which is a platform that enables extensive comparison of subtyping methods using statistical tests (including the discrimination index and adjusted Wallace coefficient).
 
-##  Installation
+## Installation
 
+CAPS requires Python >= 3.9. Install from source:
 
+```bash
+git clone https://github.com/GeorgeKolo1/CAPS.git
+cd CAPS
+pip install .
+```
+
+Dependencies (installed automatically): `numpy`, `pandas`, `scipy`, `matplotlib`, `seaborn`, `firthmodels`
 
 ## Quickstart
 
-```caps -i path/to/your/subtyping_data -o path/to/output_directory -c comparator_column -p phenotype```
+```bash
+caps -i path/to/your/subtyping_data.csv -o path/to/output_directory/ -p phenotype_column
+```
+
+With a comparator column (required when comparing more than 2 subtyping methods):
+
+```bash
+caps -i path/to/your/subtyping_data.csv -o path/to/output_directory/ -c comparator_column -p phenotype_column
+```
 
 ## Instructions
 
+### Arguments
+
+| Argument | Short | Required | Description |
+|---|---|---|---|
+| `--input` | `-i` | Yes | Path to input CSV or TSV file containing subtype data |
+| `--output` | `-o` | Yes | Path to output directory or file prefix |
+| `--phenotype` | `-p` | Yes | Name of the phenotype column in the input file |
+| `--comparator` | `-c` | No | Name of the subtyping column to use as comparator (required if subtyping methods >2) |
+
 ### Input requirements
-#### Input file
 
-´´´-i or --i´´´
+#### Input file (`-i`)
 
-The input is required to be in either csv or tsv format. It should contain subtyping methods as columns and subtypes as values within the columns.
-There is no limit on the number of subtypes (columns) you can include.
+The input must be in CSV or TSV format. Columns should represent subtyping methods, with each row being a sample. The phenotype column should also be included in this file.
 
-#### Comparator column
+Example:
 
-```-e or --e```
+| sample_id | method_A | method_B | phenotype |
+|---|---|---|---|
+| sample_1 | ST1 | DT99 | resistant |
+| sample_2 | ST2 | DT104 | sensitive |
 
-The comparator column should be the name of one of the subtyping columns within the input file. The comparator column is used to compare all subtyping methods to a single subtyping method in the adjusted wallace coefficient test. If only two subtyping methods are being compared, you can ignore this command.
+#### Comparator column (`-c`)
 
-#### Phenotype column
+The name of one of the subtyping columns to use as the reference method when computing the adjusted Wallace coefficient. Only required when comparing more than 2 subtyping methods.
 
-```-p or --p```
+#### Phenotype column (`-p`)
 
-The phenotype column should be specified and be contained within the ```-i or --i``` input file
+The name of the column in the input file containing phenotype data. This column will be separated from the subtyping data before analysis.
 
 ### Output files
 
-The output file is generated in the user-specified directory. If the user provides a filename in the output for example ```-o path/to/your_files/results.tsv (or .csv)``` then the file will be named after the user defined output. If the user specifies only a directory, for example ```-o path/to/your_files/``` then the results file will be saved as results.csv in the user-specified directory.
+At least two output files are generated:
 
-At least two output files will be generated: 
-1. An output file containing the results of the discrimination index and adjusted Wallace coefficient tests called ```DI_AWC_results.csv```
-2. An output file containing the subtype-phenotype association test results called ```{YOUR_SUBTYPING_METHOD}_association_results.csv```
+1. `DI_AWC_results.csv` — discrimination index and adjusted Wallace coefficient results
+2. `{SUBTYPING_METHOD}_association_results.csv` — subtype-phenotype association results for each subtyping method
+
+#### `DI_AWC_results.csv` columns
+
+| Column | Description |
+|---|---|
+| `DI` | Discrimination index |
+| `CI_low` | Lower bound of the 95% CI for the discrimination index |
+| `CI_high` | Upper bound of the 95% CI for the discrimination index |
+| `AWC_AvsB` | Adjusted Wallace coefficient in direction A → B |
+| `AWC_BvsA` | Adjusted Wallace coefficient in direction B → A |
+
+#### `{SUBTYPING_METHOD}_association_results.csv` columns
+
+| Column | Description |
+|---|---|
+| `subtype` | Subtype label |
+| `phenotype` | Phenotype label |
+| `test` | Statistical test used (`FisherExact` or `FirthLR`) |
+| `odds_ratio` | Odds ratio for the subtype-phenotype association |
+| `pvalue` | P-value |
+| `CI_low` | Lower bound of the 95% CI for the odds ratio |
+| `CI_high` | Upper bound of the 95% CI for the odds ratio |
+
+## References
+
+- Hunter, P.R. & Gaston, M.A. (1988). Numerical index of the discriminatory ability of typing systems. *Journal of Clinical Microbiology*, 26(11), 2465–2466.
+- Severiano, A., et al. (2011). Adjusted Wallace coefficient as a measure of congruence between typing methods. *Journal of Clinical Microbiology*, 49(11), 3997–4000.
+- Grundmann, H., Hori, S. & Tanner, G. (2001). Determining confidence intervals when measuring genetic diversity. *Journal of Clinical Microbiology*, 39(11), 4190–4192.
