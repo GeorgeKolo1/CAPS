@@ -9,7 +9,9 @@ CAPS is a command-line tool that enables subtype-phenotype association testing. 
 1. Using an odds ratio that is calculated from a 2x2 contingency table
 2.  If data is perfectly seperated, Firth logistic regression is used to avoid infinite estimates
 
-CAPS also provides basic statistical testing to compare subtyping methods, including the discrimination index (Hunter & Gaston, 1988) and the adjusted Wallace coefficient (Severiano et al., 2011).
+CAPS also provides statistical testing to compare subtyping methods, including the discrimination index (Hunter & Gaston, 1988) and the adjusted Wallace coefficient (Severiano et al., 2011).
+
+We acknowledge comparingpartitions.com as a predeccesor which is a platform that enables extensive comparison of subtyping methods using statistical tests (including the discrimination index and adjusted wallace coefficient)
 
 ## Quickstart
 
@@ -39,3 +41,4 @@ The phenotype file should be in comma seperated (.csv) or tab-seperated (.tab) f
 
 ### Output
 
+The output file is generated in the user-specified directory. If the user provides a filename in the output for example "path/to/your_files/results.tsv (or .csv)" then the file will be named after the user defined output. If the user specifies only a directory, for example "path/to/your_files/" then the results file will be saved as results.csv in the user-specified directory.
