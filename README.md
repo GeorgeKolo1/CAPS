@@ -1,6 +1,7 @@
 # CAPS
 
 [![CI](https://github.com/GeorgeKolo1/CAPS/actions/workflows/python-package.yml/badge.svg)](https://github.com/GeorgeKolo1/CAPS/actions/workflows/python-package.yml)
+[![Version](https://img.shields.io/github/v/tag/GeorgeKolo1/CAPS)](https://github.com/GeorgeKolo1/CAPS/tags)
 
 ## Overview
 
