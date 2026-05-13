@@ -1,4 +1,5 @@
 import pandas as pd
+from pathlib import Path
 
 def DataProcessor(input, phenotype):
     '''
@@ -36,5 +37,10 @@ def OutputProcessor(results_df, outfile):
     outfile (str): A string that contains the directory and filename (prefix) in which to save the results; 
     Defaults to current working directory when not specified or left as None (default)'''
 
+    outfile = Path(outfile)
+    if outfile.is_dir():
+        outpath = outfile / "results.csv"
+    else:
+        outpath = outfile.with_name(outfile.name + "_results.csv")
    
-    results_df.to_csv(outfile + "results.csv", index=False)
+    results_df.to_csv(outpath, index=False)

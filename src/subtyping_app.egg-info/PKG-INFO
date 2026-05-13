@@ -2,7 +2,7 @@ Metadata-Version: 2.4
 Name: subtyping-app
 Version: 0.0.0
 Summary: Subtyping software application
-Author-email: You <you@example.com>
+Author-email: "George M. Kolodziejczyk" <georgemkhd@gmail.com>
 Requires-Python: >=3.8
 Description-Content-Type: text/markdown
 License-File: LICENSE
@@ -13,25 +13,115 @@ Requires-Dist: matplotlib
 Requires-Dist: seaborn
 Requires-Dist: pytest
 Requires-Dist: firthmodels
+Provides-Extra: dev
+Requires-Dist: pytest; extra == "dev"
+Requires-Dist: flake8; extra == "dev"
 Dynamic: license-file
 
-# Subtyping software
-Repo for software to compare subtyping methods - in production
+# CAPS
 
-TO-DO
-[X] Debug subtype association function (add seperate workflow for Firth regression and OR, with if statement based on function parameter)
-[] Create slightly better subtype association function test (including for if you run Firth and OR, if Firth has perfect seperation etc....)
-[] Debug why shannon index is giving innapropriate values
-[] Add rand index
-[] Add adjusted rand index
-[] Add mirkin metric
-[] Add jaccard index
-[] Add Fowlkes and Mallows index
-[] Add mutual information
-[] Add normalized mutual information
-[] Add variation of information
-[] Add normalised variation of information
-[] Create visualisation
-[] Create proper input file checks
-[] Add proper error handling 
-[] Make proper docstrings for all functions and tests
+[![CI](https://github.com/GeorgeKolo1/CAPS/actions/workflows/python-package.yml/badge.svg)](https://github.com/GeorgeKolo1/CAPS/actions/workflows/python-package.yml)
+
+## Overview
+
+CAPS is a command-line tool that enables subtype-phenotype association testing. CAPS uses one-vs-rest comparisons across subtypes and phenotypes to quantify the strength of association between subtypes and a given phenotype. CAPS does this in two primary ways:
+
+1. Using an odds ratio calculated from a 2x2 contingency table (Fisher's exact test)
+2. If data is perfectly separated, Firth logistic regression is used to avoid infinite estimates
+
+CAPS also provides statistical testing to compare subtyping methods, including the discrimination index (Hunter & Gaston, 1988) and the adjusted Wallace coefficient (Severiano et al., 2011).
+
+We acknowledge comparingpartitions.com as a predecessor, which is a platform that enables extensive comparison of subtyping methods using statistical tests (including the discrimination index and adjusted Wallace coefficient).
+
+## Installation
+
+CAPS requires Python >= 3.9. Install from source:
+
+```bash
+git clone https://github.com/GeorgeKolo1/CAPS.git
+cd CAPS
+pip install .
+```
+
+Dependencies (installed automatically): `numpy`, `pandas`, `scipy`, `matplotlib`, `seaborn`, `firthmodels`
+
+## Quickstart
+
+```bash
+caps -i path/to/your/subtyping_data.csv -o path/to/output_directory/ -p phenotype_column
+```
+
+With a comparator column (required when comparing more than 2 subtyping methods):
+
+```bash
+caps -i path/to/your/subtyping_data.csv -o path/to/output_directory/ -c comparator_column -p phenotype_column
+```
+
+## Instructions
+
+### Arguments
+
+| Argument | Short | Required | Description |
+|---|---|---|---|
+| `--input` | `-i` | Yes | Path to input CSV or TSV file containing subtype data |
+| `--output` | `-o` | Yes | Path to output directory or file prefix |
+| `--phenotype` | `-p` | Yes | Name of the phenotype column in the input file |
+| `--comparator` | `-c` | No | Name of the subtyping column to use as comparator (required if subtyping methods >2) |
+
+### Input requirements
+
+#### Input file (`-i`)
+
+The input must be in CSV or TSV format. Columns should represent subtyping methods, with each row being a sample. The phenotype column should also be included in this file.
+
+Example:
+
+| sample_id | method_A | method_B | phenotype |
+|---|---|---|---|
+| sample_1 | ST1 | DT99 | resistant |
+| sample_2 | ST2 | DT104 | sensitive |
+
+#### Comparator column (`-c`)
+
+The name of one of the subtyping columns to use as the reference method when computing the adjusted Wallace coefficient. Only required when comparing more than 2 subtyping methods.
+
+#### Phenotype column (`-p`)
+
+The name of the column in the input file containing phenotype data. This column will be separated from the subtyping data before analysis.
+
+### Output files
+
+At least two output files are generated:
+
+1. `DI_AWC_results.csv` — discrimination index and adjusted Wallace coefficient results
+2. `{SUBTYPING_METHOD}_association_results.csv` — subtype-phenotype association results for each subtyping method
+
+#### `DI_AWC_results.csv` columns
+
+| Column | Description |
+|---|---|
+| `DI` | Discrimination index |
+| `CI_low` | Lower bound of the 95% CI for the discrimination index |
+| `CI_high` | Upper bound of the 95% CI for the discrimination index |
+| `AWC_AvsB` | Adjusted Wallace coefficient in direction A → B |
+| `AWC_BvsA` | Adjusted Wallace coefficient in direction B → A |
+
+#### `{SUBTYPING_METHOD}_association_results.csv` columns
+
+| Column | Description |
+|---|---|
+| `subtype` | Subtype label |
+| `phenotype` | Phenotype label |
+| `test` | Statistical test used (`FisherExact` or `FirthLR`) |
+| `odds_ratio` | Odds ratio for the subtype-phenotype association |
+| `pvalue` | P-value |
+| `CI_low` | Lower bound of the 95% CI for the odds ratio |
+| `CI_high` | Upper bound of the 95% CI for the odds ratio |
+
+## References
+- Carriço, J. A., C. Silva-Costa, J. Melo-Cristino, F. R. Pinto, H. de Lencastre, J. S. Almeida, and M. Ramirez. 2006. Illustration of a Common Framework for Relating Multiple Typing Methods by Application to Macrolide-Resistant Streptococcus pyogenes. J. Clin. Microbiol. 44(7):2524-32. (link)
+- Grundmann, H., Hori, S. & Tanner, G. (2001). Determining confidence intervals when measuring genetic diversity. *Journal of Clinical Microbiology*, 39(11), 4190–4192.
+- Hunter, P.R. & Gaston, M.A. (1988). Numerical index of the discriminatory ability of typing systems. *Journal of Clinical Microbiology*, 26(11), 2465–2466.
+- Severiano, A., et al. (2011). Adjusted Wallace coefficient as a measure of congruence between typing methods. *Journal of Clinical Microbiology*, 49(11), 3997–4000.
+
+

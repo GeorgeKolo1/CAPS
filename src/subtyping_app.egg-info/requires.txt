@@ -5,3 +5,7 @@ matplotlib
 seaborn
 pytest
 firthmodels
+
+[dev]
+pytest
+flake8

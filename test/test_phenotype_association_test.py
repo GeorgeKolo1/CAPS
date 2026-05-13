@@ -17,23 +17,32 @@ def no_separation():
     seperator = False
     return subtypes, phenotype, seperator
 
-
-def test_association_test_seperation_handling(no_separation):
-        r_df = AssociationTest(subtypes, phenotypes, seperator)
-        
-        assert r_df['test'] == 'FisherExact'
-
+def test_separation_investigator_detects_perfect_separation(perfect_separation, no_separation):
     
-
-def test_separation_investigator_detects_perfect_separation(perfect_separation):
     arr, phenotype = perfect_separation
+    arr2, phenotype2 = no_separation
+
     assert SeperationInvestigator(arr, phenotype) is True
+    assert SeperationInvestigator(arr2, phenotype2) is False
 
-    df = AssociationTest(arr1, phenotype, outfile)
-    df_sep = AssociationTest(arr2, phenotype_sep, outfile)
 
-    assert os.path.exists(outfile)
+def test_firth_computation(perfect_separation):
+    
+    arr, phenotype, seperator = perfect_separation
+    df = AssociationTest(arr, phenotype, seperator)
+
+
     assert (df['odds_ratio'] >= df['CI_low']).all()
     assert (df['odds_ratio'] <= df ['CI_high']).all()
-    assert (df_sep['test'] == "FirthLR")
+    assert (df['test'] == "FirthLR")
+
+
+def test_OR_computation(no_separation):
+    
+    arr, phenotype, seperator = no_separation
+    df = AssociationTest(arr, phenotype, seperator)
+
+    assert (df['odds_ratio'] >= df['CI_low']).all()
+    assert (df['odds_ratio'] <= df ['CI_high']).all()
+    assert (df['test'] == "FisherExact")
     
