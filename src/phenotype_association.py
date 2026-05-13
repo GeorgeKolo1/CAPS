@@ -2,11 +2,8 @@ import numpy as np
 import pandas as pd
 from scipy.stats import fisher_exact
 from scipy.stats.contingency import odds_ratio
-from statistical_tests import CT
 from firthmodels import FirthLogisticRegression
 from firthmodels import detect_separation
-from typing import Optional
-import os
 
 
 def AssociationTest(arr1: pd.Series | np.ndarray, phenotype: pd.Series | np.ndarray, seperation: bool) -> pd.DataFrame:
@@ -41,36 +38,36 @@ def AssociationTest(arr1: pd.Series | np.ndarray, phenotype: pd.Series | np.ndar
         for y in np.unique(phenotype):
             tmp_phenotype = np.where(phenotype == y, 1, 0)
 
-        if seperation == True:
-            model = FirthLogisticRegression().fit(tmp_arr.reshape(-1, 1), tmp_phenotype.reshape(-1, 1))
-            CI = model.conf_int()
-            results.append({
-                "subtype": i,
-                "phenotype": y,
-                "test": "FirthLR",
-                "coefficient": model.coef_[0],
-                "odds_ratio": np.exp(model.coef_[0]),
-                "pvalue": model.pvalues_[0],
-                "CI_low": np.exp(CI[1][0]),
-                "CI_high": np.exp(CI[1][1])
-            })
+            if seperation:
+                model = FirthLogisticRegression().fit(tmp_arr.reshape(-1, 1), tmp_phenotype)
+                CI = model.conf_int(method='pl')
+                results.append({
+                    "subtype": i,
+                    "phenotype": y,
+                    "test": "FirthLR",
+                    "coefficient": model.coef_[0],
+                    "odds_ratio": np.exp(model.coef_[0]),
+                    "pvalue": model.pvalues_[0],
+                    "CI_low": np.exp(CI[0][0]),
+                    "CI_high": np.exp(CI[0][1])
+                })
 
-        else:
-            ct = pd.crosstab(tmp_arr, tmp_phenotype)
-            res_or = odds_ratio(ct)
-            res = fisher_exact(ct)
-            OR = res_or.statistic
-            CI = res_or.confidence_interval()
-            results.append({
-                "subtype": i,
-                "phenotype": y,
-                "test": "FisherExact",
-                "statistic": res.statistic,
-                "odds_ratio": OR,
-                "pvalue": res.pvalue,
-                "CI_low": CI.low,
-                "CI_high": CI.high
-            })
+            else:
+                ct = pd.crosstab(tmp_arr, tmp_phenotype)
+                res_or = odds_ratio(ct)
+                res = fisher_exact(ct)
+                OR = res_or.statistic
+                CI = res_or.confidence_interval()
+                results.append({
+                    "subtype": i,
+                    "phenotype": y,
+                    "test": "FisherExact",
+                    "statistic": res.statistic,
+                    "odds_ratio": OR,
+                    "pvalue": res.pvalue,
+                    "CI_low": CI.low,
+                    "CI_high": CI.high
+                })
 
     results_df = pd.DataFrame(results)
 
@@ -89,10 +86,10 @@ def SeperationInvestigator(arr1: pd.Series | np.ndarray, phenotype: pd.Series | 
     Raises:
 
     '''
-    if isinstance(arr1, np.ndarray) == False:
+    if not isinstance(arr1, np.ndarray):
         arr1 = arr1.to_numpy()
 
-    if isinstance(phenotype, np.ndarray) == False:
+    if not isinstance(phenotype, np.ndarray):
         phenotype = phenotype.to_numpy()
 
     seperation_detected = False
@@ -106,7 +103,7 @@ def SeperationInvestigator(arr1: pd.Series | np.ndarray, phenotype: pd.Series | 
         for y in np.unique(phenotype):
             tmp_phenotype = np.where(phenotype == y, 1, 0)
 
-            seperation = detect_separation(tmp_arr.reshape(-1, 1), tmp_phenotype.reshape(-1, 1))
+            seperation = detect_separation(tmp_arr.reshape(-1, 1), tmp_phenotype)
             bool_list.append(seperation.separation)
         
     if any(bool_list) == True:
