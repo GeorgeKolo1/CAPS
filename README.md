@@ -8,7 +8,7 @@
 CAPS is a command-line tool that enables subtype-phenotype association testing. CAPS uses one-vs-rest comparisons across subtypes and phenotypes to quantify the strength of association between subtypes and a given phenotype. CAPS does this in two primary ways:
 
 1. Using an odds ratio calculated from a 2x2 contingency table (Fisher's exact test)
-2. If data is perfectly separated, Firth logistic regression is used to avoid infinite estimates
+2. If data is perfectly (or quasi) separated, Firth logistic regression is used to avoid infinite estimates
 
 CAPS also provides statistical testing to compare subtyping methods, including the discrimination index (Hunter & Gaston, 1988) and the adjusted Wallace coefficient (Severiano et al., 2011).
 
