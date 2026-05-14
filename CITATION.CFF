@@ -1,0 +1,10 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+authors:
+- family-names: "Kolodziejczyk"
+  given-names: "George M."
+  orcid: "https://orcid.org/0009-0003-6188-2174"
+title: "CAPS: a command-line tool for empirical testing and comparison of subtype-phenotype associations "
+version: 0.1.0
+date-released: 2026-05-13
+url: "https://github.com/GeorgeKolo1/CAPS"
