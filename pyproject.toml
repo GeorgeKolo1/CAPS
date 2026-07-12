@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "subtyping-app"
 version = "0.0.0"
-description = "Subtyping software application"
+description = "Comparison of subtyping methods"
 readme = "README.md"
 requires-python = ">=3.8"
 dependencies = [
@@ -21,11 +21,8 @@ authors = [{name = "George M. Kolodziejczyk", email = "georgemkhd@gmail.com"}]
 [project.optional-dependencies]
 dev = ["pytest", "flake8"]
 
-[tool.setuptools.package-dir]
-"" = "src"
-
-[tool.setuptools.packages.find]
-where = ["src"]
+[tool.setuptools]
+package-dir = {"" = "src"}
 
 [project.scripts]
 caps = "caps:main"

@@ -1,7 +1,7 @@
 Metadata-Version: 2.4
 Name: subtyping-app
 Version: 0.0.0
-Summary: Subtyping software application
+Summary: Comparison of subtyping methods
 Author-email: "George M. Kolodziejczyk" <georgemkhd@gmail.com>
 Requires-Python: >=3.8
 Description-Content-Type: text/markdown
@@ -21,13 +21,14 @@ Dynamic: license-file
 # CAPS
 
 [![CI](https://github.com/GeorgeKolo1/CAPS/actions/workflows/python-package.yml/badge.svg)](https://github.com/GeorgeKolo1/CAPS/actions/workflows/python-package.yml)
+[![Version](https://img.shields.io/github/v/tag/GeorgeKolo1/CAPS)](https://github.com/GeorgeKolo1/CAPS/tags)
 
 ## Overview
 
 CAPS is a command-line tool that enables subtype-phenotype association testing. CAPS uses one-vs-rest comparisons across subtypes and phenotypes to quantify the strength of association between subtypes and a given phenotype. CAPS does this in two primary ways:
 
 1. Using an odds ratio calculated from a 2x2 contingency table (Fisher's exact test)
-2. If data is perfectly separated, Firth logistic regression is used to avoid infinite estimates
+2. If data is perfectly (or quasi) separated, Firth logistic regression is used to avoid infinite estimates
 
 CAPS also provides statistical testing to compare subtyping methods, including the discrimination index (Hunter & Gaston, 1988) and the adjusted Wallace coefficient (Severiano et al., 2011).
 

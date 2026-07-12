@@ -1,6 +1,10 @@
 LICENSE
 README.md
 pyproject.toml
+src/caps.py
+src/input_output_processor.py
+src/phenotype_association.py
+src/statistical_tests.py
 src/subtyping_app.egg-info/PKG-INFO
 src/subtyping_app.egg-info/SOURCES.txt
 src/subtyping_app.egg-info/dependency_links.txt
